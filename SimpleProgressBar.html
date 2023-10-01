@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>progress bar</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+</head>
+<body>
+  
+    <div id="app">
+      <div class="container"> 
+        <div class="progressBar":style="load" >{{'%' + progress}} </div>
+      </div>
+      <button class="btn" :disabled="passive" @click="start()" >Start</button>
+      
+    </div>
+    <style>
+      .container{
+          margin-left: 30%;
+          margin-top: 15%;
+         display: flex;
+         width: 40%;
+         height: 20px;
+         border: solid 1px black ;
+         
+         
+      }
+      .progressBar{
+      background: green;
+      height: 20px;
+      
+      }
+      .btn{
+       margin-left: 48.6%;
+       margin-top: 2%;
+       color: greenyellow;
+       background-color: black;
+      }  
+     </style>
+    <script>
+      new Vue({
+          el:'#app',
+          data:{
+            progress:0,
+            showAlert:false,
+            startUp:null,
+            passive:false
+            
+          },
+          methods:{
+           start:function(){
+            x=this
+           
+            x.passive=true
+            x.startUp = setInterval(function() {
+             
+              x.progress+=5
+          } ,100)
+           
+            
+           }
+          
+          },
+          computed:{
+            load:function(){
+              return {
+                width:this.progress + '%'
+              }
+            }
+            
+          },
+          watch:{
+            progress:function(){
+              x=this
+              if (x.progress>=100) { 
+                clearInterval(x.startUp),
+             x.$nextTick (function(){
+              x.showAlert=true
+             })
+            }
+            },
+           showAlert:function(){
+          x=this
+            if(x.showAlert==true){
+             x.$nextTick(function() {alert('Loading successfully completed')})
+            }
+            
+           
+          } 
+            
+          }
+          
+           
+            
+          
+      })
+    </script>
+    
+</body>
+</html>
